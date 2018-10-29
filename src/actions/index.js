@@ -12,6 +12,18 @@ export const startSignUpUser = (email, password) => {
   };
 };
 
+export const startSignInUser = (email, password) => {
+  return dispatch => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(user => dispatch(successSignUpUser(user)))
+      .catch(error => dispatch(errorSignUpUser(error)));
+
+    dispatch({ type: "SIGNUP_START" });
+  };
+};
+
 const successSignUpUser = user => {
   return {
     type: "SIGNUP_SUCCESS",
@@ -24,4 +36,28 @@ const errorSignUpUser = error => {
     type: "SIGNUP_ERROR",
     payload: error
   };
+};
+
+export const logoutUser = () => {
+  return dispatch =>
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        dispatch({
+          type: "LOGOUT_USER"
+        });
+      });
+};
+
+export const initAuthWithFirebase = () => {
+  // return a dispatch every time state changes
+  return dispatch =>
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        dispatch(successSignUpUser(user));
+      } else {
+        dispatch(logoutUser());
+      }
+    });
 };

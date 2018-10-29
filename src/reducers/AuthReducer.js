@@ -6,6 +6,8 @@ const INITIAL_STATE = {
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case "LOGOUT_USER":
+      return { ...state, user: null };
     case "SIGNUP_START":
       return { ...state, loading: true };
     case "SIGNUP_SUCCESS":

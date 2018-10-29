@@ -2,15 +2,15 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { startSignUpUser } from "../actions";
+import { startSignInUser } from "../actions";
 
 import { FormGroup, Form } from "react-bootstrap";
 
 import FieldInput from "./FieldInput";
 
-class Signup extends React.Component {
-  handleSubmit = ({ email, password, confirm }) => {
-    this.props.startSignUpUser(email, password);
+class Signin extends React.Component {
+  handleSubmit = ({ email, password }) => {
+    this.props.startSignInUser(email, password);
   };
 
   renderContent = () => {
@@ -40,13 +40,6 @@ class Signup extends React.Component {
             placeholder="Password"
             type="password"
           />
-          <Field
-            name="confirm"
-            label="Confirm"
-            component={FieldInput}
-            placeholder="Confirm Password"
-            type="password"
-          />
 
           <FormGroup controlId="Submit">
             <Field
@@ -55,7 +48,7 @@ class Signup extends React.Component {
               component={"button"}
               type="submit"
             >
-              Sign Up
+              Sign In
             </Field>
           </FormGroup>
         </Form>
@@ -68,17 +61,6 @@ class Signup extends React.Component {
   }
 }
 
-const validate = values => {
-  const errors = {};
-
-  if (values.password !== values.confirm) {
-    errors.password = "Password doesn't match";
-    errors.confirm = "Password doesn't match";
-  }
-
-  return errors;
-};
-
 const mapStateToProps = state => {
   return {
     error: state.auth.error,
@@ -89,10 +71,9 @@ const mapStateToProps = state => {
 
 const connectedSignup = connect(
   mapStateToProps,
-  { startSignUpUser }
-)(Signup);
+  { startSignInUser }
+)(Signin);
 
 export default reduxForm({
-  form: "signup",
-  validate
+  form: "signin"
 })(connectedSignup);
