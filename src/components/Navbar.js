@@ -1,11 +1,9 @@
 import React from "react";
-import { Row, Col, FormControl } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { logoutUser } from "../actions";
 
@@ -28,18 +26,18 @@ const Navbar = props => {
             Logout
           </Link>
         ) : (
-          <Row>
-            <Col md={5} xs={5}>
-              <Link to="/signup">Sign Up</Link>
+            <Row>
+              <Col md={5} xs={5}>
+                <Link to="/signup">Sign Up</Link>
+              </Col>
+              <Col md={2} xs={2}>
+                /
             </Col>
-            <Col md={2} xs={2}>
-              /
-            </Col>
-            <Col md={5} xs={5}>
-              <Link to="/signin">Sign In</Link>
-            </Col>
-          </Row>
-        )}
+              <Col md={5} xs={5}>
+                <Link to="/signin">Sign In</Link>
+              </Col>
+            </Row>
+          )}
       </Col>
     </Row>
   );

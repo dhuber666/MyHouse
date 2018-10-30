@@ -1,16 +1,21 @@
 const INITIAL_STATE = {
   1: {
-    title: "living room",
-    markdownText: "**Hello World** was los",
-    createdAt: Date.now(),
-    files: null
+    title: "Living Room",
+    posts: {
+      0: {
+        markdownText: "**Fett** was los. _kursiv_",
+        createdAt: Date.now(),
+        files: null
+      }
+    }
+
   },
-  2: {
-    title: "bath",
-    markdownText: "**Das** ist das #Bad",
-    createdAt: Date.now(),
-    files: null
-  }
+  // 2: {
+  //   title: "bath",
+  //   markdownText: "**Das** ist das #Bad",
+  //   createdAt: Date.now(),
+  //   files: null
+  // }
 };
 
 const RoomsReducer = (state = INITIAL_STATE, action) => {

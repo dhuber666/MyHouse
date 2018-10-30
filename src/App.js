@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Grid } from "react-bootstrap";
 import { connect } from "react-redux";
-import firebase from "./config/Firebase";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -25,7 +23,8 @@ class App extends Component {
       <Router>
         <Grid>
           <Navbar />
-          <Route exact path="/" component={Rooms} />
+          {this.props.user ? <Route exact path="/" component={Rooms} /> : ""}
+
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/signin" component={Signin} />
         </Grid>
@@ -34,7 +33,9 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = ({ auth: { user } }) => ({ user })
+
 export default connect(
-  null,
+  mapStateToProps,
   { initAuthWithFirebase }
 )(App);
