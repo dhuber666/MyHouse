@@ -20,6 +20,8 @@ const INITIAL_STATE = {
 
 const RoomsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case "ADD_NEW_ROOM":
+      return { ...state, 2: { title: action.payload, posts: {} } }
     default:
       return state;
   }

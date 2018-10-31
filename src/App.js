@@ -9,6 +9,8 @@ import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
 import Signin from "./components/Signin";
 import Rooms from "./components/Rooms";
+import NewRoom from "./components/NewRoom";
+import NewPost from "./components/NewPost";
 import { initAuthWithFirebase } from "./actions";
 
 class App extends Component {
@@ -24,7 +26,8 @@ class App extends Component {
         <Grid>
           <Navbar />
           {this.props.user ? <Route exact path="/" component={Rooms} /> : ""}
-
+          <Route exact path="/newroom" component={NewRoom} />
+          <Route exact path="/newpost" component={NewPost} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/signin" component={Signin} />
         </Grid>

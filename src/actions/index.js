@@ -61,3 +61,17 @@ export const initAuthWithFirebase = () => {
       }
     });
 };
+
+export const addNewRoom = (title) => {
+  return {
+    type: "ADD_NEW_ROOM",
+    payload: title
+  }
+}
+
+export const updateEditorState = (editorState) => {
+  return dispatch => dispatch({
+    type: "UPDATE_EDITOR_STATE",
+    payload: editorState
+  })
+}

@@ -4,6 +4,7 @@ import _ from "lodash";
 import { Button, OverlayTrigger, Popover, Col, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom';
 
 import Room from "./Room";
 
@@ -22,10 +23,10 @@ class Rooms extends React.Component {
       <Row>
         {/* TODO: Create components for adding new room and post for room */}
         <Col md={6} xs={6}>
-          <strong>Room</strong>
+          <strong><Link to="/newroom">Room</Link></strong>
         </Col>
         <Col md={6} xs={6}>
-          <strong>Post</strong>
+          <strong><Link to="/newpost">Post</Link></strong>
         </Col>
       </Row>
     </Popover>
