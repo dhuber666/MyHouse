@@ -1,14 +1,17 @@
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 
 const INITIAL_STATE = {
-    editorState: EditorState.createEmpty()
+    editorState: EditorState.createEmpty(),
+    jsonState: ''
 
 };
 
 const RoomsReducer = (state = INITIAL_STATE, { payload, type }) => {
     switch (type) {
         case "UPDATE_EDITOR_STATE":
-            return { ...state, editorState: payload }
+            return { ...state, editorState: payload, jsonState: convertToRaw(payload.getCurrentContent()) }
+        case "FETCH_EDITOR_STATE":
+            return { editorState: EditorState.createWithContent(payload) }
         default:
             return state;
     }
