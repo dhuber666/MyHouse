@@ -10,6 +10,7 @@ import Signin from "./components/Signin";
 import Rooms from "./components/Rooms";
 import NewRoom from "./components/NewRoom";
 import NewPost from "./components/NewPost";
+import NewContentPopover from "./components/NewContentPopover";
 import { initAuthWithFirebase } from "./actions";
 
 class App extends Component {

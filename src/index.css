@@ -1,3 +1,7 @@
+body {
+  padding: 10px;
+}
+
 .editor {
   box-sizing: border-box;
   border: 1px solid #ddd;
@@ -11,4 +15,14 @@
 
 .editor :global(.public-DraftEditor-content) {
   min-height: 140px;
+}
+
+.new-content-popover {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
