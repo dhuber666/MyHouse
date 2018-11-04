@@ -3,7 +3,7 @@ import "./App.css";
 import { Grid } from "react-bootstrap";
 import { connect } from "react-redux";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
@@ -27,8 +27,19 @@ class App extends Component {
           <Navbar />
           {this.props.user ? <Route exact path="/" component={Rooms} /> : ""}
           {/* TODO: Make protected routes with HOC */}
-          <Route exact path="/newroom" component={NewRoom} />
-          <Route exact path="/newpost" component={NewPost} />
+
+          <Route
+            path="/newroom"
+            render={props =>
+              this.props.user ? <NewRoom {...props} /> : <Redirect to="/" />
+            }
+          />
+          <Route
+            path="/newpost"
+            render={props =>
+              this.props.user ? <NewPost {...props} /> : <Redirect to="/" />
+            }
+          />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/signin" component={Signin} />
         </Grid>

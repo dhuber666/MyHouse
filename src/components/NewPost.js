@@ -1,12 +1,15 @@
 import React from "react";
+import _ from "lodash";
+import "react-widgets/dist/css/react-widgets.css";
+
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
-import { FormGroup, Form, DropdownButton, MenuItem } from "react-bootstrap";
-import FieldInput from "./FieldInput";
 
+import DropdownList from "react-widgets/lib/DropdownList";
 import Editor from "draft-js-plugins-editor";
 import createDndFileUploadPlugin from "@mikeljames/draft-js-drag-n-drop-upload-plugin";
 import createImagePlugin from "draft-js-image-plugin";
+import { fetchRooms } from "../actions";
 
 import {
   updateEditorState,
@@ -29,49 +32,41 @@ const dndFileUploadPlugin = createDndFileUploadPlugin({
 const plugins = [dndFileUploadPlugin, imagePlugin];
 
 class NewPost extends React.Component {
+  componentWillMount() {
+    this.props.fetchRooms();
+  }
+
   handleSubmit = ({ title }) => {
     this.props.addNewRoom(title);
     this.props.history.push("/");
   };
 
-  renderDropdownList = ({ input, data, valueField, textField }) =>
-  <DropdownList {...input}
-    data={data}
-    valueField={valueField}
-    textField={textField}
-    onChange={input.onChange} />
-
-    <DropdownButton
-      bsStyle={title.toLowerCase()}
-      title="Select a room"
-      key={2}
-      id={`dropdown-basic-${i}`}
-    >
-      <MenuItem eventKey="1">Action</MenuItem>
-      <MenuItem eventKey="2">Another action</MenuItem>
-      <MenuItem eventKey="3" active>
-        Active Item
-      </MenuItem>
-      <MenuItem divider />
-      <MenuItem eventKey="4">Separated link</MenuItem>
-    </DropdownButton>
-
-}
+  renderDropdownList = ({ input, data, valueField, textField }) => (
+    <DropdownList
+      {...input}
+      data={data}
+      valueField={valueField}
+      textField={textField}
+      onChange={input.onChange}
+    />
+  );
 
   render() {
     // Style this bad boy and add editor features
 
     return (
       <div onClick={this.focus} className="editor">
-        <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+        <form onSubmit={this.props.handleSubmit}>
+          <label>Chose a room</label>
           <Field
-            name="email"
-            label="Email"
-            component={FieldInput}
-            placeholder="User@gmail.com"
-            type="email"
+            name="room"
+            component={this.renderDropdownList}
+            data={this.props.rooms}
+            valueField="value"
+            textField="room"
           />
-        </Form>
+        </form>
+
         <Editor
           onChange={this.props.updateEditorState}
           editorState={this.props.editorState}
@@ -90,7 +85,10 @@ class NewPost extends React.Component {
 }
 
 const mapStateToProps = ({ editor: { editorState }, rooms }) => {
-  return { editorState, rooms };
+  const roomsArray = _.map(rooms, room => {
+    return [room.title];
+  });
+  return { editorState, rooms: roomsArray };
 };
 
 const connectedSignup = connect(
@@ -99,7 +97,8 @@ const connectedSignup = connect(
     updateEditorState,
     fetchEditorState,
     subscribeAutosave,
-    unsubscribeAutosave
+    unsubscribeAutosave,
+    fetchRooms
   }
 )(NewPost);
 

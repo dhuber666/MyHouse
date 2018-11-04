@@ -39,6 +39,10 @@ class Rooms extends React.Component {
   );
 
   render() {
+    if (this.props.rooms.length === 0) {
+      return <p>Loading...</p>;
+    }
+
     return (
       <div style={{ marginTop: 50 }}>
         {/* TODO: implement AddRoom Component */}
@@ -59,12 +63,13 @@ class Rooms extends React.Component {
   }
 }
 
-const mapStateToProps = ({ rooms }) => {
+const mapStateToProps = ({ rooms, auth }) => {
   const roomsArray = _.map(rooms, (value, uid) => {
     return { ...value, uid };
   });
   return {
-    rooms: roomsArray
+    rooms: roomsArray,
+    loading: auth.loading
   };
 };
 

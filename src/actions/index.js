@@ -53,9 +53,11 @@ export const logoutUser = () => {
 
 export const initAuthWithFirebase = () => {
   // return a dispatch every time state changes
+
   return dispatch =>
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log("now we have a user", user);
         dispatch(successSignUpUser(user));
       } else {
         dispatch(logoutUser());
