@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import _ from "lodash";
 import ReactMarkdown from "react-markdown";
 
@@ -18,26 +18,26 @@ import ReactMarkdown from "react-markdown";
 
 */
 
-const Room = (props) => {
+const Room = props => {
+  const renderPosts = () => {
+    let { posts } = props;
 
-    const renderPosts = () => {
+    // transform posts object into array
+    posts = _.map(posts, (value, uid) => ({ ...value, uid }));
 
-        let { posts } = props;
+    return posts.map(post => (
+      <ReactMarkdown source={post.markdownText} key={post.uid} />
+    ));
+  };
 
-        // transform posts object into array
-        posts = _.map(posts, (value, uid) => ({ ...value, uid }))
-
-        return posts.map(post => <ReactMarkdown source={post.markdownText} key={post.uid} />)
-    }
-
-
-    return (
-        <div>
-            <h2>{props.title}</h2>
-            <hr />
-            {renderPosts()}
-        </div>
-    )
-}
+  return (
+    <div>
+      <h2>{props.title}</h2>
+      <p>Test</p>
+      <hr />
+      {renderPosts()}
+    </div>
+  );
+};
 
 export default Room;

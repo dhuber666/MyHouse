@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 import { Grid } from "react-bootstrap";
 import { connect } from "react-redux";
 
