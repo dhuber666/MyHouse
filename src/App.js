@@ -26,6 +26,7 @@ class App extends Component {
         <Grid>
           <Navbar />
           {this.props.user ? <Route exact path="/" component={Rooms} /> : ""}
+          {/* TODO: Make protected routes with HOC */}
           <Route exact path="/newroom" component={NewRoom} />
           <Route exact path="/newpost" component={NewPost} />
           <Route exact path="/signup" component={Signup} />
@@ -36,7 +37,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ auth: { user } }) => ({ user })
+const mapStateToProps = ({ auth: { user } }) => ({ user });
 
 export default connect(
   mapStateToProps,

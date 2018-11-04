@@ -1,6 +1,5 @@
 import firebase from "../config/Firebase";
-import { convertToRaw, convertFromRaw } from 'draft-js';
-
+import { convertToRaw, convertFromRaw } from "draft-js";
 
 export const startSignUpUser = (email, password) => {
   return dispatch => {
@@ -64,63 +63,91 @@ export const initAuthWithFirebase = () => {
     });
 };
 
-export const addNewRoom = (title) => {
-  return {
-    type: "ADD_NEW_ROOM",
-    payload: title
-  }
-}
+export const addNewRoom = title => {
+  return (dispatch, getState) => {
+    const room = {
+      title
+    };
 
-export const updateEditorState = (editorState) => {
+    firebase
+      .database()
+      .ref(`users/${getState().auth.user.uid}/rooms`)
+      .push(room);
+
+    dispatch({
+      type: "ADD_NEW_ROOM",
+      payload: title
+    });
+  };
+};
+
+export const updateEditorState = editorState => {
   return dispatch => {
-
     dispatch({
       type: "UPDATE_EDITOR_STATE",
       payload: editorState
-    })
-  }
-}
+    });
+  };
+};
 
 // variable for storing the id of interval
 let intervalID;
 
 export const subscribeAutosave = () => {
-  return (dispatch, getState) => dispatch(saveToFirebase())
-}
+  return (dispatch, getState) => dispatch(saveEditorStateToFirebase());
+};
 
 export const unsubscribeAutosave = () => {
   return dispatch => clearInterval(intervalID);
-}
+};
 
-
-const saveToFirebase = () => {
-
+const saveEditorStateToFirebase = () => {
   return (dispatch, getState) => {
     intervalID = setInterval(() => {
-
       const editorState = getState().editor.editorState;
-      const jsonState = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+      const jsonState = JSON.stringify(
+        convertToRaw(editorState.getCurrentContent())
+      );
       // TODO: Figure out the best place to store an editor's state. The state of the editor alone is enough
       // Just set it to readonly when done editing
-      firebase.database().ref(`users/${getState().auth.user.uid}/editor`).set(jsonState)
-
-    }, 1000)
-  }
-}
+      firebase
+        .database()
+        .ref(`users/${getState().auth.user.uid}/editor`)
+        .set(jsonState);
+    }, 1000);
+  };
+};
 
 export const fetchEditorState = () => {
   return (dispatch, getState) => {
+    firebase
+      .database()
+      .ref(`users/${getState().auth.user.uid}/editor`)
+      .once("value", snapshot => {
+        const jsonState = snapshot.val();
 
-    firebase.database().ref(`users/${getState.auth.user.uid}/editor`).once("value", snapshot => {
+        const state = convertFromRaw(JSON.parse(jsonState));
 
-      const jsonState = snapshot.val();
+        dispatch({
+          type: "FETCH_EDITOR_STATE",
+          payload: state
+        });
+      });
+  };
+};
 
-      const state = convertFromRaw(JSON.parse(jsonState));
-
-      dispatch({
-        type: "FETCH_EDITOR_STATE",
-        payload: state
-      })
-    })
-  }
-}
+export const fetchRooms = () => {
+  return (dispatch, getState) => {
+    firebase
+      .database()
+      .ref(`users/${getState().auth.user.uid}/rooms`)
+      .on("value", snapshot => {
+        const rooms = snapshot.val();
+        console.log(rooms);
+        dispatch({
+          type: "FETCH_ROOMS",
+          payload: rooms
+        });
+      });
+  };
+};

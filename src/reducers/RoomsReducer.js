@@ -1,27 +1,9 @@
-const INITIAL_STATE = {
-  1: {
-    title: "Living Room",
-    posts: {
-      0: {
-        markdownText: "**Fett** was los. _kursiv_",
-        createdAt: Date.now(),
-        files: null
-      }
-    }
-
-  },
-  // 2: {
-  //   title: "bath",
-  //   markdownText: "**Das** ist das #Bad",
-  //   createdAt: Date.now(),
-  //   files: null
-  // }
-};
+const INITIAL_STATE = {};
 
 const RoomsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "ADD_NEW_ROOM":
-      return { ...state, 2: { title: action.payload, posts: {} } }
+    case "FETCH_ROOMS":
+      return { ...state, ...action.payload };
     default:
       return state;
   }
