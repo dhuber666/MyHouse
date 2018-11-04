@@ -6,30 +6,10 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 
 import DropdownList from "react-widgets/lib/DropdownList";
-import Editor from "draft-js-plugins-editor";
-import createDndFileUploadPlugin from "@mikeljames/draft-js-drag-n-drop-upload-plugin";
-import createImagePlugin from "draft-js-image-plugin";
+
 import { fetchRooms } from "../actions";
 
-import {
-  updateEditorState,
-  fetchEditorState,
-  subscribeAutosave,
-  unsubscribeAutosave
-} from "../actions";
-
-const mockUpload = () => {
-  console.log(test);
-};
-
-const imagePlugin = createImagePlugin();
-
-const dndFileUploadPlugin = createDndFileUploadPlugin({
-  handleUpload: mockUpload,
-  addImage: imagePlugin.addImage
-});
-
-const plugins = [dndFileUploadPlugin, imagePlugin];
+import Editor from "./Editor";
 
 class NewPost extends React.Component {
   componentWillMount() {
@@ -55,9 +35,9 @@ class NewPost extends React.Component {
     // Style this bad boy and add editor features
 
     return (
-      <div onClick={this.focus} className="editor">
+      <div>
         <form onSubmit={this.props.handleSubmit}>
-          <label>Chose a room</label>
+          <label>Chose a room you want to save your post into:</label>
           <Field
             name="room"
             component={this.renderDropdownList}
@@ -66,38 +46,22 @@ class NewPost extends React.Component {
             textField="room"
           />
         </form>
-
-        <Editor
-          onChange={this.props.updateEditorState}
-          editorState={this.props.editorState}
-          plugins={plugins}
-        />
-        <button onClick={this.props.fetchEditorState}>Fetch State</button>
-        <button onClick={this.props.subscribeAutosave}>
-          Subscribe to Autosave
-        </button>
-        <button onClick={this.props.unsubscribeAutosave}>
-          Unsubscribe to Autosave
-        </button>
+        <Editor />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ editor: { editorState }, rooms }) => {
+const mapStateToProps = ({ rooms }) => {
   const roomsArray = _.map(rooms, room => {
     return [room.title];
   });
-  return { editorState, rooms: roomsArray };
+  return { rooms: roomsArray };
 };
 
 const connectedSignup = connect(
   mapStateToProps,
   {
-    updateEditorState,
-    fetchEditorState,
-    subscribeAutosave,
-    unsubscribeAutosave,
     fetchRooms
   }
 )(NewPost);
