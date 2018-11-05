@@ -1,27 +1,42 @@
 import React from "react";
 import _ from "lodash";
-import ReactMarkdown from "react-markdown";
+
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Avatar from '@material-ui/core/Avatar';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 
 const Room = props => {
-  const renderPosts = () => {
-    let { posts } = props;
 
-    // transform posts object into array
-    posts = _.map(posts, (value, uid) => ({ ...value, uid }));
 
-    return posts.map(post => (
-      <ReactMarkdown source={post.markdownText} key={post.uid} />
-    ));
-  };
+    return (
+        <div>
+            <ListItem>
+                <ListItemAvatar>
+                    <Avatar>
+                        <Icon>
+                            {"folder_icon"}
+                        </Icon>
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={props.title} />
+                <ListItemSecondaryAction>
+                    <IconButton aria-label="Delete">
+                        <Icon>
+                            delete_icon
+                        </Icon>
+                    </IconButton>
+                </ListItemSecondaryAction>
 
-  return (
-    <div>
-      <h2>{props.title}</h2>
-      <p>Test</p>
-      <hr />
-      {renderPosts()}
-    </div>
-  );
+
+            </ListItem>
+            <Divider />
+        </div>
+    );
 };
 
 export default Room;

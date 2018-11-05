@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { startSignUpUser } from "../actions";
 
-import { FormGroup, Form } from "react-bootstrap";
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
 
 import FieldInput from "./FieldInput";
 
@@ -25,40 +26,48 @@ class Signup extends React.Component {
       return <h3>Loading...</h3>;
     } else {
       return (
-        <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
-          <Field
-            name="email"
-            label="Email"
-            component={FieldInput}
-            placeholder="User@gmail.com"
-            type="email"
-          />
-          <Field
-            name="password"
-            label="Password"
-            component={FieldInput}
-            placeholder="Password"
-            type="password"
-          />
-          <Field
-            name="confirm"
-            label="Confirm"
-            component={FieldInput}
-            placeholder="Confirm Password"
-            type="password"
-          />
+        
+          <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
-          <FormGroup controlId="Submit">
+
+
             <Field
+              name="email"
+              label="Email"
+              component={FieldInput}
+              placeholder="User@gmail.com"
+              type="email"
+            />
+            <Field
+              name="password"
+              label="Password"
+              component={FieldInput}
+              placeholder="Password"
+              type="password"
+            />
+            <Field
+              name="confirm"
+              label="Confirm"
+              component={FieldInput}
+              placeholder="Confirm Password"
+              type="password"
+            />
+
+
+            <Button
+              color="primary"
+              variant="contained"
               name="submit"
               label="Submit"
               component={"button"}
               type="submit"
             >
               Sign Up
-            </Field>
-          </FormGroup>
-        </Form>
+            </Button>
+
+
+          </form>
+        
       );
     }
   };

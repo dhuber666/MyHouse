@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Grid } from "react-bootstrap";
+import Grid from '@material-ui/core/Grid';
 import { connect } from "react-redux";
+
+import { withStyles } from '@material-ui/core/styles';
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
@@ -11,6 +13,7 @@ import Rooms from "./components/Rooms";
 import NewRoom from "./components/NewRoom";
 import NewPost from "./components/NewPost";
 import NewContentPopover from "./components/NewContentPopover";
+
 import { initAuthWithFirebase } from "./actions";
 
 class App extends Component {
@@ -21,36 +24,59 @@ class App extends Component {
   }
 
   render() {
+
+    const { classes } = this.props;
+
     return (
       <Router>
-        <Grid>
-          <Navbar />
-          {this.props.user ? <Route exact path="/" component={Rooms} /> : ""}
-          {/* TODO: Make protected routes with HOC */}
+        <Grid container justify="center">
+          <Grid
+            container
+            className={classes.demo}
+            justify="space-between"
+          >
+            <Navbar />
+            {this.props.user ? <Route exact path="/" component={Rooms} /> : ""}
+            {/* TODO: Make protected routes with HOC */}
 
-          <Route
-            path="/newroom"
-            render={props =>
-              this.props.user ? <NewRoom {...props} /> : <Redirect to="/" />
-            }
-          />
-          <Route
-            path="/newpost"
-            render={props =>
-              this.props.user ? <NewPost {...props} /> : <Redirect to="/" />
-            }
-          />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/signin" component={Signin} />
+            <Route
+              path="/newroom"
+              render={props =>
+                this.props.user ? <NewRoom {...props} /> : <Redirect to="/" />
+              }
+            />
+            <Route
+              path="/newpost"
+              render={props =>
+                this.props.user ? <NewPost {...props} /> : <Redirect to="/" />
+              }
+            />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/signin" component={Signin} />
+            <NewContentPopover />
+          </Grid>
         </Grid>
       </Router>
     );
   }
 }
 
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  demo: {
+
+
+    [theme.breakpoints.up("lg")]: {
+      width: 1170
+    }
+  }
+});
+
 const mapStateToProps = ({ auth: { user } }) => ({ user });
 
-export default connect(
+export default withStyles(styles)(connect(
   mapStateToProps,
   { initAuthWithFirebase }
-)(App);
+)(App));

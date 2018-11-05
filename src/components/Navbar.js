@@ -1,51 +1,89 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 
 import { logoutUser } from "../actions";
 
-const Navbar = props => {
-  return (
-    <Row className="show-grid" style={styles.container}>
-      <Col md={2} xs={2}>
-        <Link to="/">Home</Link>
-      </Col>
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
 
-      <Col md={3} xs={3} align="center" className="pull-right">
-        {props.user ? (
-          <Link to="/" onClick={props.logoutUser}>
-            Logout
-          </Link>
-        ) : (
-          <Row>
-            <Col md={5} xs={5}>
-              <Link to="/signup">Sign Up</Link>
-            </Col>
-            <Col md={2} xs={2}>
-              /
-            </Col>
-            <Col md={5} xs={5}>
-              <Link to="/signin">Sign In</Link>
-            </Col>
-          </Row>
-        )}
-      </Col>
-    </Row>
+
+
+const styles = {
+  root: {
+    flexGrow: 1,
+    marginBottom: 50
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+};
+
+
+
+const Navbar = props => {
+  const { classes } = props;
+
+  const renderButtons = () => {
+
+    if (props.loading) {
+      return ''
+    }
+    if (props.user) {
+      return (
+
+        <Button><Link to="/" onClick={props.logoutUser} style={{ color: 'white' }}>Logout </Link></Button>
+
+      )
+    }
+
+    return (
+      [
+        <Button color="inherit"><Link to="/signup" style={{ color: 'white' }}>Sign Up</Link></Button>,
+        <Button color="inherit"><Link to="/signin" style={{ color: 'white' }}>Sign In</Link></Button>]
+
+    )
+  }
+
+  return (
+    <Grid container>
+      <Grid item lg={12} xs={12}>
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Toolbar>
+
+              <Typography variant="h6" color="inherit" className={classes.grow}>
+                <Link to="/" style={{ color: 'white' }}>Home</Link>
+              </Typography>
+              {renderButtons()}
+            </Toolbar>
+          </AppBar>
+        </div>
+      </Grid>
+
+    </Grid>
+
+
+
   );
 };
 
-const styles = {
-  container: {
-    paddingTop: 20,
-    paddingBottom: 20
-  }
-};
 
-const mapStateToProps = state => ({ user: state.auth.user });
 
-export default connect(
+const mapStateToProps = state => ({ user: state.auth.user, loading: state.auth.loading });
+
+export default withStyles(styles)(connect(
   mapStateToProps,
   { logoutUser }
-)(Navbar);
+)(Navbar));

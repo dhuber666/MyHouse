@@ -4,6 +4,8 @@ import FieldInput from "./FieldInput";
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { addNewRoom } from "../actions";
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 
 class NewRoom extends React.Component {
@@ -16,23 +18,22 @@ class NewRoom extends React.Component {
     render() {
 
         return (
-            <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
-                <Field
-                    name="title"
-                    label="Title"
-                    component={FieldInput}
-                    placeholder="Your cool Title"
-                    type="text"
-                />
-                <Field
-                    name="add"
-                    label="add"
-                    component={"button"}
-                    type="submit"
-                >
-                    Add new Room
-            </Field>
-            </Form>
+            <Grid container>
+                <Grid item xs={12} lg={12}>
+                    <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+                        <Field
+                            name="title"
+                            label="Title"
+                            component={FieldInput}
+                            placeholder="Your cool Title"
+                            type="text"
+                        />
+                        <Button variant="contained" color="primary" type="submit" >Add new Room</Button>
+
+
+                    </Form>
+                </Grid>
+            </Grid >
         )
     }
 }

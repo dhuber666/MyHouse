@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { startSignInUser } from "../actions";
 
-import { FormGroup, Form } from "react-bootstrap";
+import Button from '@material-ui/core/Button';
 
 import FieldInput from "./FieldInput";
 
@@ -25,7 +25,7 @@ class Signin extends React.Component {
       return <h3>Loading...</h3>;
     } else {
       return (
-        <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+        <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
           <Field
             name="email"
             label="Email"
@@ -41,17 +41,17 @@ class Signin extends React.Component {
             type="password"
           />
 
-          <FormGroup controlId="Submit">
-            <Field
-              name="submit"
-              label="Submit"
-              component={"button"}
-              type="submit"
-            >
-              Sign In
-            </Field>
-          </FormGroup>
-        </Form>
+          <Button
+            color="primary"
+            variant="contained"
+            name="submit"
+            label="Submit"
+            component={"button"}
+            type="submit"
+          >
+            Sign In
+            </Button>
+        </form>
       );
     }
   };

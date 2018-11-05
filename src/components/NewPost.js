@@ -1,71 +1,79 @@
-import React from "react";
-import _ from "lodash";
-import "react-widgets/dist/css/react-widgets.css";
+import React from 'react';
+import { reduxForm } from "redux-form";
+import { connect } from 'react-redux';
 
-import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
+import Grid from '@material-ui/core/Grid'
 
-import DropdownList from "react-widgets/lib/DropdownList";
 
-import { fetchRooms } from "../actions";
+import Editor from 'draft-js-plugins-editor';
+import createDndFileUploadPlugin from '@mikeljames/draft-js-drag-n-drop-upload-plugin';
+import createImagePlugin from 'draft-js-image-plugin';
 
-import Editor from "./Editor";
 
-class NewPost extends React.Component {
-  componentWillMount() {
-    this.props.fetchRooms();
-  }
+import { updateEditorState, fetchEditorState, subscribeAutosave, unsubscribeAutosave } from "../actions";
 
-  handleSubmit = ({ title }) => {
-    this.props.addNewRoom(title);
-    this.props.history.push("/");
-  };
 
-  renderDropdownList = ({ input, data, valueField, textField }) => (
-    <DropdownList
-      {...input}
-      data={data}
-      valueField={valueField}
-      textField={textField}
-      onChange={input.onChange}
-    />
-  );
-
-  render() {
-    // Style this bad boy and add editor features
-
-    return (
-      <div>
-        <form onSubmit={this.props.handleSubmit}>
-          <label>Chose a room you want to save your post into:</label>
-          <Field
-            name="room"
-            component={this.renderDropdownList}
-            data={this.props.rooms}
-            valueField="value"
-            textField="room"
-          />
-        </form>
-        <Editor />
-      </div>
-    );
-  }
+const mockUpload = () => {
+    console.log(test)
 }
 
-const mapStateToProps = ({ rooms }) => {
-  const roomsArray = _.map(rooms, room => {
-    return [room.title];
-  });
-  return { rooms: roomsArray };
-};
+const imagePlugin = createImagePlugin();
+
+const dndFileUploadPlugin = createDndFileUploadPlugin({
+    handleUpload: mockUpload,
+    addImage: imagePlugin.addImage
+});
+
+
+const plugins = [
+    dndFileUploadPlugin,
+    imagePlugin
+]
+
+
+class NewPost extends React.Component {
+
+
+
+    handleSubmit = ({ title }) => {
+        this.props.addNewRoom(title)
+        this.props.history.push("/")
+    }
+
+    render() {
+
+        // Style this bad boy and add editor features
+
+        return (
+            <Grid container>
+                <h3>Write Text, Drop Pictures, Style everything</h3>
+                <Grid item lg={12} xs={12}>
+                    <div onClick={this.focus} className="editor">
+                        <Editor
+                            onChange={this.props.updateEditorState}
+                            editorState={this.props.editorState}
+                            plugins={plugins}
+                        />
+                        <button onClick={this.props.fetchEditorState}>Fetch State</button>
+                        <button onClick={this.props.subscribeAutosave}>Subscribe to Autosave</button>
+                        <button onClick={this.props.unsubscribeAutosave}>Subscribe to Autosave</button>
+                    </div>
+                </Grid>
+            </Grid>
+        )
+    }
+}
+
+
+const mapStateToProps = ({ editor: { editorState } }) => {
+
+    return { editorState }
+}
 
 const connectedSignup = connect(
-  mapStateToProps,
-  {
-    fetchRooms
-  }
+    mapStateToProps, { updateEditorState, fetchEditorState, subscribeAutosave, unsubscribeAutosave }
 )(NewPost);
 
 export default reduxForm({
-  form: "newpost"
+    form: "newpost"
 })(connectedSignup);

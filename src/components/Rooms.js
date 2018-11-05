@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import Room from "./Room";
 import { fetchRooms } from "../actions";
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
 
 class Rooms extends React.Component {
   componentDidMount() {
@@ -20,7 +22,13 @@ class Rooms extends React.Component {
       return <p>Loading...</p>;
     }
 
-    return <div style={{ marginTop: 50 }}>{this.renderRooms()}</div>;
+    return <Grid container style={{ flexGrow: 1, marginTop: 30 }}>
+      <Grid item lg={12}>
+        <List >
+          {this.renderRooms()}
+        </List>
+      </Grid>
+    </Grid>
   }
 }
 
