@@ -44,7 +44,7 @@ export const fetchEditorState = () => {
       .ref(`users/${getState().auth.user.uid}/editor`)
       .once("value", snapshot => {
         const jsonState = snapshot.val();
-        console.log(jsonState)
+        console.log(jsonState);
         const state = convertFromRaw(JSON.parse(jsonState));
 
         dispatch({

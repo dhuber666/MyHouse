@@ -22,7 +22,7 @@ class Rooms extends React.Component {
       return <p>Loading...</p>;
     }
 
-    return <Grid container style={{ flexGrow: 1, marginTop: 30 }}>
+    return <Grid container style={{ flexGrow: 1, marginTop: 30 }}  >
       <Grid item lg={12}>
         <List >
           {this.renderRooms()}

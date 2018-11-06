@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { startSignUpUser } from "../actions";
 
-import Button from "@material-ui/core/Button"
-import Grid from "@material-ui/core/Grid"
+import Button from "@material-ui/core/Button";
 
 import FieldInput from "./FieldInput";
 
@@ -26,48 +25,40 @@ class Signup extends React.Component {
       return <h3>Loading...</h3>;
     } else {
       return (
-        
-          <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+        <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+          <Field
+            name="email"
+            label="Email"
+            component={FieldInput}
+            placeholder="User@gmail.com"
+            type="email"
+          />
+          <Field
+            name="password"
+            label="Password"
+            component={FieldInput}
+            placeholder="Password"
+            type="password"
+          />
+          <Field
+            name="confirm"
+            label="Confirm"
+            component={FieldInput}
+            placeholder="Confirm Password"
+            type="password"
+          />
 
-
-
-            <Field
-              name="email"
-              label="Email"
-              component={FieldInput}
-              placeholder="User@gmail.com"
-              type="email"
-            />
-            <Field
-              name="password"
-              label="Password"
-              component={FieldInput}
-              placeholder="Password"
-              type="password"
-            />
-            <Field
-              name="confirm"
-              label="Confirm"
-              component={FieldInput}
-              placeholder="Confirm Password"
-              type="password"
-            />
-
-
-            <Button
-              color="primary"
-              variant="contained"
-              name="submit"
-              label="Submit"
-              component={"button"}
-              type="submit"
-            >
-              Sign Up
-            </Button>
-
-
-          </form>
-        
+          <Button
+            color="primary"
+            variant="contained"
+            name="submit"
+            label="Submit"
+            component={"button"}
+            type="submit"
+          >
+            Sign Up
+          </Button>
+        </form>
       );
     }
   };

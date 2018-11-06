@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
@@ -24,7 +24,6 @@ class App extends Component {
   }
 
   render() {
-
     const { classes } = this.props;
 
     return (
@@ -34,6 +33,7 @@ class App extends Component {
             container
             className={classes.demo}
             justify="space-between"
+            style={{ position: "relative" }}
           >
             <Navbar />
             {this.props.user ? <Route exact path="/" component={Rooms} /> : ""}
@@ -63,11 +63,9 @@ class App extends Component {
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   demo: {
-
-
     [theme.breakpoints.up("lg")]: {
       width: 1170
     }
@@ -76,7 +74,9 @@ const styles = theme => ({
 
 const mapStateToProps = ({ auth: { user } }) => ({ user });
 
-export default withStyles(styles)(connect(
-  mapStateToProps,
-  { initAuthWithFirebase }
-)(App));
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    { initAuthWithFirebase }
+  )(App)
+);

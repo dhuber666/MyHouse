@@ -5,7 +5,7 @@ import React from "react";
 //   FormControl,
 //   HelpBlock
 // } from "react-bootstrap";
-import TextField from '@material-ui/core/TextField'
+import TextField from "@material-ui/core/TextField";
 
 const FieldInput = ({
   input,
@@ -42,7 +42,7 @@ const FieldInput = ({
       fullWidth
       margin="normal"
       InputLabelProps={{
-        shrink: true,
+        shrink: true
       }}
     />
   );

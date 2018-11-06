@@ -78,7 +78,7 @@ class NewContentPopover extends React.Component {
           variant="fab"
           onClick={this.toggleDrawer(true)}
           color="primary"
-          style={{ right: 50, bottom: 50, position: 'absolute' }}
+          style={{ right: 0, bottom: -70, position: 'absolute' }}
 
           className={classes.button}
         >

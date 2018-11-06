@@ -9,7 +9,6 @@ import {
   subscribeAutosave,
   unsubscribeAutosave
 } from "../actions";
-import Grid from '@material-ui/core/Grid'
 
 const mockUpload = () => {
   console.log(test);
@@ -27,7 +26,6 @@ const plugins = [dndFileUploadPlugin, imagePlugin];
 class Editor extends React.Component {
   render() {
     return (
-
       <div onClick={this.focus}>
         <DraftJSEditor
           onChange={this.props.updateEditorState}
@@ -42,8 +40,6 @@ class Editor extends React.Component {
           Unsubscribe to Autosave
         </button>
       </div>
-
-
     );
   }
 }

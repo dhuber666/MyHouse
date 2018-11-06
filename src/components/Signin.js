@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { startSignInUser } from "../actions";
 
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 
 import FieldInput from "./FieldInput";
 
@@ -50,7 +50,7 @@ class Signin extends React.Component {
             type="submit"
           >
             Sign In
-            </Button>
+          </Button>
         </form>
       );
     }

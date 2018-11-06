@@ -5,3 +5,7 @@
 **Features**
 
 - Comming soon..
+
+```js
+console.log("test");
+```
