@@ -37,7 +37,6 @@ class App extends Component {
           >
             <Navbar />
             {this.props.user ? <Route exact path="/" component={Rooms} /> : ""}
-            {/* TODO: Make protected routes with HOC */}
 
             <Route
               path="/newroom"
@@ -53,7 +52,7 @@ class App extends Component {
             />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/signin" component={Signin} />
-            <NewContentPopover />
+            {this.props.user && <NewContentPopover rooms={this.props.rooms} />}
           </Grid>
         </Grid>
       </Router>
@@ -72,7 +71,10 @@ const styles = theme => ({
   }
 });
 
-const mapStateToProps = ({ auth: { user } }) => ({ user });
+const mapStateToProps = ({ auth: { user }, rooms: { rooms } }) => ({
+  user,
+  rooms
+});
 
 export default withStyles(styles)(
   connect(
